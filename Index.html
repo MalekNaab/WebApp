@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #Box{
+            border: 1px solid;
+            height: 190px;
+            width: 300px;
+        }
+    </style>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+</head>
+<body>
+    
+
+    <div id="Box" >
+        <p>Subject: {{Subject}}</p>
+        <p>Location: {{Location}}</p>
+        <p>Price: {{Price}}</p>
+        <p>Stock: {{Stock}}</p>
+        <button  v-on:click="AddBasket()">Add</button>
+        <!-- <p v-if=" == 0">Out of Stock </p> -->
+   
+    </div>
+
+    <Script>
+        const StorageKey = "Basket";
+        const { createApp } = Vue
+        createApp({
+        data(){
+            return{
+                Basket: [],
+                Subject: 'English',
+                Location: 'London',
+                Price: '£100.00',
+                Stock: 5
+            }
+        },
+        create(){
+            this.Basket = JSON.parse(localStorage.getItem(StorageKey) || '[]');
+        },
+        methods: {
+            AddBasket() {
+                this.Basket.push({
+                    SUBJECT: this.Subject,
+                    LOCATION: this.Location,
+                    PRICE: this.Price
+                }),
+                this.Stock--
+                if(this.Stock <= 0){
+                    this.Stock = 'Out Of Stock'
+                    
+                }
+                localStorage.setItem(StorageKey, JSON.stringify(this.Basket));
+            }
+        }
+        }).mount('#Box')
+
+    </Script>
+</body>
+</html>

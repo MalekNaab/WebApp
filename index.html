@@ -55,10 +55,7 @@
                     PRICE: this.Price
                 }),
                 this.Stock--
-                if(this.Stock <= 0){
-                    this.Stock = 'Out Of Stock'
-                    
-                }
+               
                 localStorage.setItem(StorageKey, JSON.stringify(this.Basket));
             }
         }

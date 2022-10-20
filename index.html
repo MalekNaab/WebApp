@@ -23,7 +23,10 @@
         <p>Location: {{Location}}</p>
         <p>Price: {{Price}}</p>
         <p>Stock: {{Stock}}</p>
-        <button  v-on:click="AddBasket()">Add</button>
+        <button v-on:click="AddBasket()"  v-bind:disabled="Stock == 0">
+            <span v-if="Stock <= 0">Out Of Stock</span>
+            <span v-if="Stock > 0">Add to Cart</span>
+        </button>
         <!-- <p v-if=" == 0">Out of Stock </p> -->
    
     </div>

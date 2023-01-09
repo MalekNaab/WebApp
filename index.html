@@ -6,9 +6,8 @@
     <title>Document</title>
 
     <style>
-        #Box{
-            border: 1px solid;
-            height: 190px;
+        .items{
+            border: 1px solid lightblue;
             width: 300px;
         }
     </style>
@@ -19,46 +18,37 @@
     
 
     <div id="Box" >
-        <p>Subject: {{Subject}}</p>
-        <p>Location: {{Location}}</p>
-        <p>Price: {{Price}}</p>
-        <p>Stock: {{Stock}}</p>
-        <button v-on:click="AddBasket()" v-bind:disabled="Stock == 0">
-            <span v-if="Stock <= 0">Out Of Stock</span>
-            <span v-else>Add to Cart</span>
-        </button>
-        <!-- <p v-if=" == 0">Out of Stock </p> -->
-   
+        
+        <div>
+            <ul v-for="item in list" :key="item.location" class="items">
+                <li>topic: {{item.topic}}</li>
+                <li>location: {{item.location}}</li>
+                <li>price: {{item.price}}</li>
+            </ul>
+        </div>
     </div>
 
     <Script>
-        const StorageKey = "Basket";
         const { createApp } = Vue
         createApp({
         data(){
             return{
-                Basket: [],
-                Subject: 'English',
-                Location: 'London',
-                Price: '£100.00',
-                Stock: 5
+                list: [],
             }
-        },
-        create(){
-            this.Basket = JSON.parse(localStorage.getItem(StorageKey) || '[]');
         },
         methods: {
-            AddBasket() {
-                this.Basket.push({
-                    SUBJECT: this.Subject,
-                    LOCATION: this.Location,
-                    PRICE: this.Price
-                }),
-                this.Stock--
-               
-                localStorage.setItem(StorageKey, JSON.stringify(this.Basket));
-            }
-        }
+            async getList() {
+                try {
+                    let res = await fetch("http://localhost:3000/lessons");
+                    this.list = await res.json();
+                }catch (error) {
+                    console.log(error);
+                }
+            },
+        },
+        created(){
+            this.getList();
+        },
         }).mount('#Box')
 
     </Script>

@@ -20,10 +20,10 @@
             fetch("http://localhost:3000/lessons")
             .then((response) => response.json())
             .then((lessons) => {
-                this.getList(lessons);
-            })
+                this.lessons = lessons;
+            });
         },
-        }).mount('#Box')
+        });
 
     </Script>
 </body>

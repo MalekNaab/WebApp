@@ -36,18 +36,12 @@
                 list: [],
             }
         },
-        methods: {
-            async getList() {
-                try {
-                    let res = await fetch("http://localhost:3000/lessons");
-                    this.list = await res.json();
-                }catch (error) {
-                    console.log(error);
-                }
-            },
-        },
-        created(){
-            this.getList();
+        created: function () {
+            fetch("http://localhost:3000/lessons")
+            .then((response) => response.json())
+            .then((list) => {
+                this.getList();
+            })
         },
         }).mount('#Box')
 

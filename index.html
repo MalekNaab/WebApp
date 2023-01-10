@@ -29,14 +29,13 @@
     </div>
 
     <Script>
-        const { createApp } = Vue
-        createApp({
-        data(){
-            return{
+        
+        var app = new Vue({
+            el: "#app",
+            data: {
                 list: [],
-            }
-        },
-        created: function () {
+            },
+            created: function () {
             fetch("http://localhost:3000/lessons")
             .then((response) => response.json())
             .then((list) => {

@@ -3,27 +3,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Web App</title>
+    <style>
+        .items{
+            border: 1px solid lightblue;
+            width: 300px;
+        }
+    </style>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 </head>
 <body>
+    
+    <div id="Box" >
+        <div>
+            <ul v-for="item in list" :key="item.location" class="items">
+                <li>topic: {{item.topic}}</li>
+                <li>location: {{item.location}}</li>
+                <li>price: {{item.price}}</li>
+            </ul>
+        </div>
+    </div>
 
     <Script>
-
-        var app = new Vue({
-            el: "#app",
-            data: {
-                lessons: [],
-            },
-            created: function () {
-            fetch("http://localhost:3000/lessons")
-            .then((response) => response.json())
-            .then((lessons) => {
-                this.lessons = lessons;
-            });
+        const { createApp } = Vue
+        createApp({
+        data(){
+            return{
+                list: [],
+            }
         },
-        });
+        methods: {
+            async getList() {
+                try {
+                    let res = await fetch("http://localhost:3000/lessons");
+                    this.list = await res.json();
+                }catch (error) {
+                    console.log(error);
+                }
+            },
+        },
+        created(){
+            this.getList();
+        },
+        }).mount('#Box')
 
     </Script>
 </body>
